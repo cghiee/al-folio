@@ -27,11 +27,17 @@ document.addEventListener("DOMContentLoaded", function () {
             const doi = workSummary['external-ids']['external-id'].find(id => id['external-id-type'] === 'doi');
             const doiValue = doi ? doi['external-id-value'] : 'Unknown';
 
+            // Extracting authors
+            const contributors = workSummary['contributors'] ? workSummary['contributors']['contributor'] : [];
+            const authors = contributors.map(contributor => {
+                return contributor['credit-name'] ? contributor['credit-name']['value'] : 'Unknown';
+            }).join(', ');
+
             // Creating the publication entry
             const publicationEntry = document.createElement('div');
             publicationEntry.innerHTML = `
                 <h3>${title}</h3>
-                <p>Authors: TODO</p>
+                <p>Authors: ${authors}</p>
                 <p>Publication Year: ${year}</p>
                 <p>Journal: ${journalTitle}</p>
                 <p>DOI: ${doiValue}</p>
