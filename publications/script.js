@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const orcidId = 'YOUR-ORCID-ID'; // Replace with your ORCID ID
+    const orcidId = '0000-0002-4700-2105'; // Replace with your ORCID ID
     const apiUrl = `https://pub.orcid.org/v3.0/${orcidId}/works`;
 
     fetch(apiUrl, {
