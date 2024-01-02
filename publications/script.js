@@ -11,10 +11,32 @@ document.addEventListener("DOMContentLoaded", function () {
     .then(data => {
         const publicationsContainer = document.getElementById('publications');
         data.group.forEach(pub => {
-            const title = pub['work-summary'][0]['title']['title']['value'];
-            const publication = document.createElement('p');
-            publication.textContent = title;
-            publicationsContainer.appendChild(publication);
+            const workSummary = pub['work-summary'][0];
+
+            // Extracting the title
+            const title = workSummary['title']['title']['value'];
+
+            // Extracting the publication date
+            const pubDate = workSummary['publication-date'];
+            const year = pubDate ? pubDate['year']['value'] : 'Unknown';
+
+            // Extracting the journal title
+            const journalTitle = workSummary['journal-title'] ? workSummary['journal-title']['value'] : 'Unknown';
+
+            // Extracting the DOI
+            const doi = workSummary['external-ids']['external-id'].find(id => id['external-id-type'] === 'doi');
+            const doiValue = doi ? doi['external-id-value'] : 'Unknown';
+
+            // Creating the publication entry
+            const publicationEntry = document.createElement('div');
+            publicationEntry.innerHTML = `
+                <h3>${title}</h3>
+                <p>Authors: TODO</p>
+                <p>Publication Year: ${year}</p>
+                <p>Journal: ${journalTitle}</p>
+                <p>DOI: ${doiValue}</p>
+            `;
+            publicationsContainer.appendChild(publicationEntry);
         });
     })
     .catch(error => console.error('Error fetching ORCID data:', error));
